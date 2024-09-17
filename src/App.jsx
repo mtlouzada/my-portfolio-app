@@ -10,6 +10,7 @@ function App() {
     <>
      <h1 className='text-2xl text-white font-bold'>WELCOME</h1>
     </>
+
   )
 }
 
