@@ -5,6 +5,17 @@
   text-align: center;
 }
 
+.menu-bar {
+  width: 100%;
+  max-width: 1024px;
+  background-color: bisque;
+  
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+
 .logo {
   height: 6em;
   padding: 1.5em;

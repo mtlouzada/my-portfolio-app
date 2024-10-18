@@ -9,6 +9,18 @@ function App() {
   return (
     <>
       <div>
+
+        <div className='menu-bar'>
+          <div>
+            <a href="">matheuslouzadaa@gmail.com</a>
+              <a href="">Copy Email</a>
+          </div>
+          <div>
+            <a href="https://www.linkedin.com/in/matheus-louzadaa/" target='black'>LinkedIn</a>
+            <a href="https://github.com/mtlouzada" target='black'>GitHub</a>
+          </div>
+        </div>
+
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
