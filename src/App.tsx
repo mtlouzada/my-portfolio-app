@@ -41,7 +41,35 @@ Estudo sobre programação diariamente, me desafiando a criar projetos completos
 
         </header>
 
+        <main>
 
+          <h2>Melhores Projetos</h2>
+
+          <div>
+            <a href="">projeto-1</a>
+            <h3>projetos-1</h3>
+            <p>about projeto</p>
+            <a href="">ir ao site</a>
+            <a href="">ver video</a>
+          </div>
+
+          <div>
+            <a href="">projeto-1</a>
+            <h3>projetos-1</h3>
+            <p>about projeto</p>
+            <a href="">ir ao site</a>
+            <a href="">ver video</a>
+          </div>
+
+          <div>
+            <a href="">projeto-1</a>
+            <h3>projetos-1</h3>
+            <p>about projeto</p>
+            <a href="">ir ao site</a>
+            <a href="">ver video</a>
+          </div>
+
+        </main>
 
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
