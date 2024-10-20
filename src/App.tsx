@@ -71,6 +71,19 @@ Estudo sobre programação diariamente, me desafiando a criar projetos completos
 
         </main>
 
+        <footer>
+          <div>
+          <h3>Meu Email:</h3>
+          <a href="">matheuslouzadaa@gmail.com</a>
+          </div>
+
+          <div>
+            <a href="">Github</a>
+            <a href="">LinkedIn</a>
+          </div>
+        
+        </footer>
+
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
