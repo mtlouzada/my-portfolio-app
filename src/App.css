@@ -10,9 +10,15 @@
   max-width: 1024px;
   background-color: #010101;
 
+  height: 80px;
   display: flex;
   justify-content: space-between;
 
+}
+
+img {
+  width: 260px;
+  border-radius: 50%;
 }
 
 

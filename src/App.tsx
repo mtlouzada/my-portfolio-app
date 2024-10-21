@@ -1,10 +1,6 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
@@ -24,14 +20,14 @@ function App() {
           </div>
 
           <div>
-            <img src="./perfil-project.jpeg" alt="Foto Perfil"/>
+            <img src="./ft-perfil.jpg" alt="Foto Perfil"/>
             <h1>Matheus Louzada</h1>
             <h3>Desenvolvedor web</h3>
 
             <p>
             Me formei em ADS no fim de 2023, desde então estou fazendo cursos profissionalizantes focado no desenvolvimento Web2. Também participei de um BootCamp seguido de um Hackathon na ICP HUB Brasil, onde tive a experiência de desenvolver um projeto em equipe e apresentá-lo.
 
-Estudo sobre programação diariamente, me desafiando a criar projetos completos, utilizando bibliotecas, frameworks e banco de dados para isso. Desenvolvendo autonomia na criação de código e aprimorando o meu raciocínio lógico. Visando ser capaz de entregar soluções tecnológicas de forma rápida e eficaz.
+  Estudo sobre programação diariamente, me desafiando a criar projetos completos, utilizando bibliotecas, frameworks e banco de dados para isso. Desenvolvendo autonomia na criação de código e aprimorando o meu raciocínio lógico. Visando ser capaz de entregar soluções tecnológicas de forma rápida e eficaz.
             </p>
 
             <a href="">Ver Currículo</a>
