@@ -21,20 +21,6 @@ const en = {
     label: "About",
     headline:
       "I've shipped for real clients, contributed to open source and built my own products end to end — with tests and CI from the first commit. The projects below are the proof.",
-    groups: [
-      {
-        label: "BACK-END",
-        items: ["C#", "ASP.NET Core", ".NET", "SQL Server", "Entity Framework", "REST APIs"],
-      },
-      {
-        label: "FRONT-END",
-        items: ["React", "TypeScript", "Next.js", "JavaScript", "HTML / CSS"],
-      },
-      {
-        label: "PRACTICES",
-        items: ["CI / CD", "Automated testing", "Git", "Agile methodologies"],
-      },
-    ],
   },
   projects: {
     label: "Featured work",
@@ -146,20 +132,6 @@ const pt: Dictionary = {
     label: "Sobre",
     headline:
       "Já entreguei pra cliente real, contribuo com open source e construo produtos próprios de ponta a ponta — com testes e CI desde o primeiro commit. Os projetos abaixo são a prova.",
-    groups: [
-      {
-        label: "BACK-END",
-        items: ["C#", "ASP.NET Core", ".NET", "SQL Server", "Entity Framework", "APIs REST"],
-      },
-      {
-        label: "FRONT-END",
-        items: ["React", "TypeScript", "Next.js", "JavaScript", "HTML / CSS"],
-      },
-      {
-        label: "PRÁTICAS",
-        items: ["CI / CD", "Testes automatizados", "Git", "Metodologias ágeis"],
-      },
-    ],
   },
   projects: {
     label: "Trabalho em destaque",
