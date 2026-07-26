@@ -9,14 +9,28 @@ export default function Hero() {
 
   return (
     <section id="top" className="max-w-[1120px] mx-auto px-6 pt-36 pb-28">
-      <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-16">
+      {/* photo first in DOM: sits on top on mobile, left column on desktop */}
+      <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+        <Reveal delay={0.04} className="shrink-0">
+          <div className="relative w-[220px] sm:w-[260px] md:w-[300px] aspect-square rounded-full overflow-hidden ring-1 ring-line shadow-elevated">
+            <Image
+              src="/imgs/newphoto.jpg"
+              alt="Matheus Louzada"
+              fill
+              priority
+              sizes="(max-width: 768px) 260px, 300px"
+              className="object-cover"
+            />
+          </div>
+        </Reveal>
+
         {/* text — right on desktop */}
         <div className="flex-1 min-w-0 text-center md:text-left">
-          <Reveal delay={0.04}>
+          <Reveal delay={0.12}>
             <p className="label-mono">{t.hero.role}</p>
           </Reveal>
 
-          <Reveal delay={0.1} className="mt-6">
+          <Reveal delay={0.18} className="mt-6">
             <h1 className="text-[clamp(48px,8vw,92px)] leading-[1.02] tracking-[-0.04em] font-semibold text-fg">
               Matheus
               <br />
@@ -24,13 +38,13 @@ export default function Hero() {
             </h1>
           </Reveal>
 
-          <Reveal delay={0.18} className="mt-7">
+          <Reveal delay={0.26} className="mt-7">
             <p className="max-w-[540px] mx-auto md:mx-0 text-[clamp(16px,2vw,20px)] leading-[1.55] text-muted text-pretty">
               {t.hero.description}
             </p>
           </Reveal>
 
-          <Reveal delay={0.26} className="mt-9">
+          <Reveal delay={0.34} className="mt-9">
             <div className="flex flex-wrap gap-3.5 justify-center md:justify-start max-[480px]:flex-col max-[480px]:items-stretch">
               <a
                 href="#projetos"
@@ -57,20 +71,6 @@ export default function Hero() {
             </div>
           </Reveal>
         </div>
-
-        {/* photo — GitHub-style circular avatar, left on desktop */}
-        <Reveal delay={0.34} className="shrink-0">
-          <div className="relative w-[220px] sm:w-[260px] md:w-[300px] aspect-square rounded-full overflow-hidden ring-1 ring-line shadow-elevated">
-            <Image
-              src="/imgs/newphoto.jpg"
-              alt="Matheus Louzada"
-              fill
-              priority
-              sizes="(max-width: 768px) 260px, 300px"
-              className="object-cover"
-            />
-          </div>
-        </Reveal>
       </div>
     </section>
   );
