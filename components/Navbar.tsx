@@ -136,7 +136,7 @@ export default function Navbar() {
               id="nav"
               className="eth-holo h-[15px] w-auto transition-transform duration-300 group-hover:-translate-y-[1.5px] group-hover:scale-110"
             />
-            Crypto
+            Web3
           </Link>
 
           <button
@@ -177,7 +177,7 @@ export default function Navbar() {
             className="px-3 py-3.5 rounded-xl text-[17px] font-medium text-accent bg-accent-soft mt-1 inline-flex items-center gap-2.5"
           >
             <EthMark id="menu" className="eth-holo h-[18px] w-auto" />
-            Crypto ↗
+            Web3 ↗
           </Link>
           <div className="px-3 pt-3 pb-1">
             <LangToggle />
