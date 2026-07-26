@@ -5,121 +5,14 @@ import { flushSync } from "react-dom";
 
 type Theme = "light" | "dark";
 
-/* Theme toggle with a matrix-style reveal (View Transitions API).
-   The new theme expands from the toggle button as a smooth circle, and every
-   grid cell the frontier has just engulfed flashes a random glyph in the
-   incoming theme's accent color — like the new theme being decoded at the
-   wavefront. Browsers without the API, and users with prefers-reduced-motion,
-   get the plain instant toggle. */
+/* Theme toggle with a circular reveal (View Transitions API).
+   The new theme expands from the toggle button as a smooth circle, with the old
+   theme sitting frozen underneath until the frontier passes over it. Browsers
+   without the API, and users with prefers-reduced-motion, get the plain instant
+   toggle. */
 
-const BLOCK = 32; // px — glyph grid cell size
 const DURATION = 1100; // ms — total reveal time
-const GLYPHS = "ｱｲｳｴｵｶｷｸｹｺﾊﾋﾌﾍﾎ0123456789<>/*+=";
-const GLYPH_LIFE = 380; // ms — how long each frontier glyph lives
-const GLYPH_DENSITY = 0.55; // chance a frontier cell shows a glyph
-
-/* Matrix-style glyph wave: as the pixel frontier expands, grid cells it has
-   just engulfed flash a random character in the theme accent color and fade —
-   like the new theme being decoded. Runs on a fixed canvas that lives inside
-   the (clipped) new view-transition snapshot, so glyphs only ever appear on
-   the revealed side. */
-let activeGlyphCanvas: HTMLCanvasElement | null = null;
-
-function spawnGlyphWave(x: number, y: number, R: number) {
-  activeGlyphCanvas?.remove();
-
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const canvas = document.createElement("canvas");
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  canvas.style.cssText =
-    "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999";
-  canvas.setAttribute("aria-hidden", "true");
-  document.body.appendChild(canvas);
-  activeGlyphCanvas = canvas;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    canvas.remove();
-    return;
-  }
-  ctx.scale(dpr, dpr);
-  ctx.font = `600 ${Math.round(BLOCK * 0.62)}px ui-monospace, monospace`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  // Read the accent AFTER the theme flips so glyphs match the incoming theme.
-  const accent =
-    getComputedStyle(document.documentElement)
-      .getPropertyValue("--accent")
-      .trim() || "#5b5bd6";
-
-  type Glyph = { cx: number; cy: number; ch: string; born: number };
-  const seen = new Set<string>();
-  let glyphs: Glyph[] = [];
-  const start = performance.now();
-
-  const frame = (now: number) => {
-    const p = Math.min(1, (now - start) / DURATION);
-    const r = (1 - Math.pow(1 - p, 3)) * R;
-    const inner = Math.max(0, r - BLOCK * 1.6);
-
-    // spawn glyphs in the ring band (inner, r] — walk columns, few cells each
-    if (p < 1) {
-      const gx0 = Math.floor((x - r) / BLOCK);
-      const gx1 = Math.ceil((x + r) / BLOCK);
-      for (let gx = gx0; gx <= gx1; gx++) {
-        const cx = gx * BLOCK + BLOCK / 2;
-        if (cx < -BLOCK || cx > w + BLOCK) continue;
-        const dx = Math.abs(cx - x);
-        if (dx > r) continue;
-        const yOuter = Math.sqrt(r * r - dx * dx);
-        const yInner = dx >= inner ? 0 : Math.sqrt(inner * inner - dx * dx);
-        for (const sign of [1, -1]) {
-          const gy0 = Math.floor((y + sign * yInner) / BLOCK);
-          const gy1 = Math.ceil((y + sign * yOuter) / BLOCK);
-          const lo = Math.min(gy0, gy1);
-          const hi = Math.max(gy0, gy1);
-          for (let gy = lo; gy <= hi; gy++) {
-            const key = `${gx},${gy}`;
-            if (seen.has(key)) continue;
-            const cy = gy * BLOCK + BLOCK / 2;
-            if (cy < -BLOCK || cy > h + BLOCK) continue;
-            const d = Math.hypot(cx - x, cy - y);
-            if (d > r || d <= inner) continue;
-            seen.add(key);
-            if (Math.random() < GLYPH_DENSITY) {
-              glyphs.push({
-                cx,
-                cy,
-                ch: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
-                born: now,
-              });
-            }
-          }
-        }
-      }
-    }
-
-    ctx.clearRect(0, 0, w, h);
-    glyphs = glyphs.filter((g) => now - g.born < GLYPH_LIFE);
-    ctx.fillStyle = accent;
-    for (const g of glyphs) {
-      ctx.globalAlpha = 1 - (now - g.born) / GLYPH_LIFE;
-      ctx.fillText(g.ch, g.cx, g.cy);
-    }
-    ctx.globalAlpha = 1;
-
-    if (p < 1 || glyphs.length > 0) {
-      requestAnimationFrame(frame);
-    } else {
-      canvas.remove();
-      if (activeGlyphCanvas === canvas) activeGlyphCanvas = null;
-    }
-  };
-  requestAnimationFrame(frame);
-}
+const PAD = 32; // px — radius overshoot so the circle fully clears the corner
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>("light");
@@ -169,7 +62,7 @@ export function useTheme() {
       Math.max(x, window.innerWidth - x),
       Math.max(y, window.innerHeight - y),
     );
-    const R = cover + BLOCK;
+    const R = cover + PAD;
 
     const transition = doc.startViewTransition(() => {
       // Force the re-render inside the callback so the "new" snapshot is final.
@@ -187,13 +80,10 @@ export function useTheme() {
           },
           {
             duration: DURATION,
-            // easeOutCubic — the exact curve the glyph wave uses, so the
-            // characters ride the clip frontier instead of drifting off it
-            easing: "cubic-bezier(0.33, 1, 0.68, 1)",
+            easing: "cubic-bezier(0.33, 1, 0.68, 1)", // easeOutCubic
             pseudoElement: "::view-transition-new(root)",
           },
         );
-        spawnGlyphWave(x, y, R);
       })
       .catch(() => {
         /* transition skipped (e.g. rapid toggling) — theme is applied anyway */

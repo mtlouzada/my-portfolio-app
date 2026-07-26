@@ -137,9 +137,9 @@
   }
 }
 
-/* ---------- theme toggle: pixel-dissolve reveal (View Transitions) ----------
-   The reveal itself is driven from lib/useTheme.ts, which animates a jagged
-   clip-path polygon on ::view-transition-new(root). Here we only disable the
+/* ---------- theme toggle: circular reveal (View Transitions) ----------
+   The reveal itself is driven from lib/useTheme.ts, which animates an expanding
+   clip-path circle on ::view-transition-new(root). Here we only disable the
    default cross-fade so the old theme sits frozen underneath the wipe. */
 ::view-transition-old(root),
 ::view-transition-new(root) {
