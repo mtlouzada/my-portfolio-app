@@ -17,11 +17,23 @@ const PAD = 32; // px — radius overshoot so the circle fully clears the corner
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>("light");
 
-  // Sync with whatever the inline layout script already applied.
+  // Sync with whatever the inline layout script already applied, and keep
+  // every consumer of the hook in sync afterwards: each call site holds its own
+  // state, so a toggle fired from the navbar has to reach the rest of the page
+  // through the attribute it writes on <html>.
   useEffect(() => {
-    const current = (document.documentElement.getAttribute("data-theme") ??
-      "light") as Theme;
-    setTheme(current);
+    const read = () =>
+      setTheme(
+        (document.documentElement.getAttribute("data-theme") ??
+          "light") as Theme,
+      );
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    return () => mo.disconnect();
   }, []);
 
   const applyTheme = (next: Theme) => {
