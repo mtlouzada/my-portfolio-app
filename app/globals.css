@@ -9,7 +9,7 @@
   --fg: #1d1d1f;
   --fg-muted: #6e6e73;
   --border: rgba(0, 0, 0, 0.09);
-  --nav-bg: rgba(255, 255, 255, 0.72);
+  --nav-bg: rgba(255, 255, 255, 0.74);
   --accent: #5b5bd6;
   --accent-soft: rgba(91, 91, 214, 0.1);
   --shadow: 0 18px 50px -16px rgba(0, 0, 0, 0.2);
@@ -22,7 +22,7 @@
   --fg: #f5f5f7;
   --fg-muted: #8a8a90;
   --border: rgba(255, 255, 255, 0.1);
-  --nav-bg: rgba(10, 10, 11, 0.7);
+  --nav-bg: rgba(10, 10, 11, 0.62);
   --accent: #8b8bf5;
   --accent-soft: rgba(139, 139, 245, 0.16);
   --shadow: 0 22px 60px -16px rgba(0, 0, 0, 0.65);

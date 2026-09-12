@@ -77,9 +77,9 @@ function LangToggle({ className = "" }: { className?: string }) {
       aria-label={t.nav.switchLang}
       className={`h-9 px-2.5 rounded-full border border-line flex items-center gap-1 font-mono text-[11px] tracking-[0.04em] hover:bg-elev transition-colors ${className}`}
     >
-      <span className={lang === "en" ? "text-fg font-semibold" : "text-muted"}>EN</span>
-      <span className="text-muted opacity-50">/</span>
       <span className={lang === "pt" ? "text-fg font-semibold" : "text-muted"}>PT</span>
+      <span className="text-muted opacity-50">/</span>
+      <span className={lang === "en" ? "text-fg font-semibold" : "text-muted"}>EN</span>
     </button>
   );
 }
@@ -90,100 +90,105 @@ export default function Navbar() {
   const { t } = useLanguage();
   const links = t.nav.links;
 
+  // Floating island: detached from the top edge so the hero background runs
+  // behind and around the bar.
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-line bg-[var(--nav-bg)] backdrop-blur-xl backdrop-saturate-150">
-      <div className="max-w-[1120px] mx-auto px-6 h-[58px] grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-        {/* left — logo */}
-        <div className="flex justify-start min-w-0">
+    <div className="fixed top-3 sm:top-4 left-0 right-0 z-50 px-3 sm:px-5">
+      {/* the open mobile menu goes opaque — a translucent panel over the hero
+          photo is unreadable */}
+      <nav
+        className={`mx-auto max-w-[1120px] rounded-2xl border border-line backdrop-blur-md backdrop-saturate-150 shadow-elevated overflow-hidden transition-colors duration-300 ${
+          open ? "bg-[var(--bg)]" : "bg-[var(--nav-bg)]"
+        }`}
+      >
+        <div className="px-4 sm:px-5 h-[58px] flex items-center justify-between gap-4">
+          {/* left — logo */}
           <Logo />
+
+          {/* right — links, utilities, and the crypto CTA anchoring the edge */}
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-0.5 mr-1">
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="px-[14px] py-2 rounded-pill text-[14px] text-muted hover:text-fg hover:bg-elev transition-colors"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+
+            <LangToggle className="hidden sm:flex" />
+
+            <button
+              onClick={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                toggle({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+              }}
+              aria-label={t.nav.toggleTheme}
+              className="w-9 h-9 rounded-full border border-line text-fg flex items-center justify-center hover:bg-elev transition-colors"
+            >
+              {theme === "dark" ? <MoonIcon /> : <SunIcon />}
+            </button>
+
+            <Link
+              href="/cripto"
+              className="crypto-pill group hidden sm:inline-flex items-center gap-2 pl-3 pr-3.5 h-9 rounded-pill text-[13.5px] font-medium text-white bg-accent shadow-[0_6px_18px_-8px_rgba(91,91,214,0.8)] transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_10px_24px_-8px_rgba(91,91,214,0.9)]"
+            >
+              <EthMark
+                id="nav"
+                className="eth-holo h-[15px] w-auto transition-transform duration-300 group-hover:-translate-y-[1.5px] group-hover:scale-110"
+              />
+              Web3
+            </Link>
+
+            <button
+              onClick={() => setOpen((v) => !v)}
+              aria-label={t.nav.menu}
+              className="md:hidden w-9 h-9 rounded-full border border-line text-fg flex items-center justify-center hover:bg-elev transition-colors"
+            >
+              {open ? (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                </svg>
+              ) : (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+                  <line x1="4" y1="8" x2="20" y2="8" />
+                  <line x1="4" y1="16" x2="20" y2="16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* center — nav links (stays in place; content hidden on mobile) */}
-        <div className="flex justify-center">
-          <div className="hidden md:flex items-center gap-0.5">
+        {open && (
+          <div className="md:hidden border-t border-line px-3 pb-3 pt-2 flex flex-col gap-0.5">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="px-[14px] py-2 rounded-pill text-[14px] text-muted hover:text-fg hover:bg-elev transition-colors"
+                onClick={() => setOpen(false)}
+                className="px-3 py-3.5 rounded-xl text-[17px] font-medium text-fg hover:bg-elev transition-colors"
               >
                 {l.label}
               </Link>
             ))}
-          </div>
-        </div>
-
-        {/* right — actions: utilities first, crypto CTA anchors the edge */}
-        <div className="flex justify-end items-center gap-2">
-          <LangToggle className="hidden sm:flex" />
-
-          <button
-            onClick={(e) => {
-              const r = e.currentTarget.getBoundingClientRect();
-              toggle({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
-            }}
-            aria-label={t.nav.toggleTheme}
-            className="w-9 h-9 rounded-full border border-line text-fg flex items-center justify-center hover:bg-elev transition-colors"
-          >
-            {theme === "dark" ? <MoonIcon /> : <SunIcon />}
-          </button>
-
-          <Link
-            href="/cripto"
-            className="crypto-pill group hidden sm:inline-flex items-center gap-2 pl-3 pr-3.5 py-2 rounded-pill text-[13.5px] font-medium text-accent bg-accent-soft border border-transparent hover:border-accent/30 transition-colors"
-          >
-            <EthMark
-              id="nav"
-              className="eth-holo h-[15px] w-auto transition-transform duration-300 group-hover:-translate-y-[1.5px] group-hover:scale-110"
-            />
-            Web3
-          </Link>
-
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label={t.nav.menu}
-            className="md:hidden w-9 h-9 rounded-full border border-line text-fg flex items-center justify-center hover:bg-elev transition-colors"
-          >
-            {open ? (
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
-                <line x1="6" y1="6" x2="18" y2="18" />
-                <line x1="18" y1="6" x2="6" y2="18" />
-              </svg>
-            ) : (
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
-                <line x1="4" y1="8" x2="20" y2="8" />
-                <line x1="4" y1="16" x2="20" y2="16" />
-              </svg>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {open && (
-        <div className="md:hidden border-t border-line px-4 pb-4 pt-2 flex flex-col gap-0.5">
-          {links.map((l) => (
             <Link
-              key={l.href}
-              href={l.href}
+              href="/cripto"
               onClick={() => setOpen(false)}
-              className="px-3 py-3.5 rounded-xl text-[17px] font-medium text-fg hover:bg-elev transition-colors"
+              className="px-3 py-3.5 rounded-xl text-[17px] font-medium text-white bg-accent mt-1 inline-flex items-center gap-2.5"
             >
-              {l.label}
+              <EthMark id="menu" className="eth-holo h-[18px] w-auto" />
+              Web3 ↗
             </Link>
-          ))}
-          <Link
-            href="/cripto"
-            onClick={() => setOpen(false)}
-            className="px-3 py-3.5 rounded-xl text-[17px] font-medium text-accent bg-accent-soft mt-1 inline-flex items-center gap-2.5"
-          >
-            <EthMark id="menu" className="eth-holo h-[18px] w-auto" />
-            Web3 ↗
-          </Link>
-          <div className="px-3 pt-3 pb-1">
-            <LangToggle />
+            <div className="px-3 pt-3 pb-1">
+              <LangToggle />
+            </div>
           </div>
-        </div>
-      )}
-    </nav>
+        )}
+      </nav>
+    </div>
   );
 }
