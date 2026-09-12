@@ -1,4 +1,4 @@
-export type Lang = "en" | "pt";
+export type Lang = "pt" | "en";
 
 const en = {
   nav: {
@@ -220,4 +220,4 @@ const pt: Dictionary = {
   },
 };
 
-export const dictionaries: Record<Lang, Dictionary> = { en, pt };
+export const dictionaries: Record<Lang, Dictionary> = { pt, en };

@@ -16,12 +16,12 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Matheus Louzada",
-  description: "Fullstack Developer — .NET, C#, React, TypeScript",
+  description: "Desenvolvedor Fullstack — .NET, C#, React, TypeScript",
 };
 
 // Set the theme and language before paint to avoid a flash of the wrong
 // color scheme / lang attribute.
-const themeScript = `(function(){try{var t=localStorage.getItem('ml-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('ml-lang');document.documentElement.lang=l==='pt'?'pt-BR':'en';}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('ml-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('ml-lang');document.documentElement.lang=l==='en'?'en':'pt-BR';}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

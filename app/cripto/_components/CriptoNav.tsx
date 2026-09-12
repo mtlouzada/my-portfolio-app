@@ -52,9 +52,9 @@ function LangToggle({ className = "" }: { className?: string }) {
       aria-label={ct.nav.switchLang}
       className={`h-9 px-2 shrink-0 border-2 border-[var(--c-ink)] bg-[var(--c-paper)] c-mono text-[10px] tracking-[0.08em] flex items-center gap-1 hover:-translate-y-0.5 transition-transform ${className}`}
     >
-      <span className={lang === "en" ? "text-[var(--c-red)] font-bold" : "text-[var(--c-ink-soft)]"}>EN</span>
-      <span className="text-[var(--c-ink-soft)]">/</span>
       <span className={lang === "pt" ? "text-[var(--c-red)] font-bold" : "text-[var(--c-ink-soft)]"}>PT</span>
+      <span className="text-[var(--c-ink-soft)]">/</span>
+      <span className={lang === "en" ? "text-[var(--c-red)] font-bold" : "text-[var(--c-ink-soft)]"}>EN</span>
     </button>
   );
 }

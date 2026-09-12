@@ -12,9 +12,9 @@ type LanguageContextValue = {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // English is the primary language; render it on the server and only
+  // Portuguese is the primary language; render it on the server and only
   // switch after mount so SSR and client markup stay in sync.
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("pt");
 
   useEffect(() => {
     try {
@@ -27,7 +27,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const toggle = () => {
     setLang((prev) => {
-      const next: Lang = prev === "en" ? "pt" : "en";
+      const next: Lang = prev === "pt" ? "en" : "pt";
       document.documentElement.lang = next === "pt" ? "pt-BR" : "en";
       try {
         localStorage.setItem("ml-lang", next);
